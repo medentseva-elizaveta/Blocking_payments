@@ -50,7 +50,7 @@
 
 ---
 ### 4. ER-диаграмма
-![diagram](images\ER.jpg) 
+![diagram](images/ER.jpg) 
 
 ---
 
@@ -75,7 +75,7 @@
    - `created_at` - дата и время создания записи 
 5. Возврат статуса **`201 (Created)`** при успешном выполнении запроса.
 
-![diagram](images\Block.png) 
+![diagram](images/Block.png) 
 
 ---
 
@@ -87,7 +87,7 @@
 4. Создание записи в `client_block_history` (`action`=`unblock`).
 5. Возврат статуса **`200 (OK)`** при успешном выполнении запроса.
 
-![diagram](images\Unblock.png) 
+![diagram](images/Unblock.png) 
 
 ---
 
@@ -102,7 +102,7 @@
      "reason": "scam"
    }
 
-![diagram](images\Status.png) 
+![diagram](images/Status.png) 
 
 ---
 
@@ -112,7 +112,7 @@
 2. Получение записей из таблицы `client_block_history` с `client_id`=`id`, `reason`= `scam/incorrect_details`, в зависимости от переданного query-параметра и пагинацией
 3. Возврат статуса **`200 (OK)`** с телом ответа, в котором содержится список записей о блокировках.
 
-![diagram](images\History1.png) 
-![diagram](images\History2.png) 
+![diagram](images/History1.png) 
+![diagram](images/History2.png) 
 
 ---
