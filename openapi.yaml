@@ -1,0 +1,164 @@
+openapi: 3.0.0
+info:
+  title: API управления блокировками клиентов
+  version: 1.0.0
+  contact:
+    name: Меденцева Елизавета
+    email: medentseva.elizaveta@yandex.ru
+    
+paths:
+
+  /client/{id}/block:
+    post:
+      summary: Заблокировать платежи клиента
+      tags:
+        - client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор клиента
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  enum: [scam, incorrect_details]
+                  description: Причина блокировки
+                comment:
+                  type: string
+                  example: Подозрение на мошенничество
+                  description: Комментарий
+      responses:
+        '201':
+          description: Платежи клиента заблокированы
+        '404':
+          description: Клиент не найден
+
+          
+  /client/{id}/unblock:
+    post:
+      summary: Разблокировать платежи клиента
+      tags:
+        - client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор клиента
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                  example: Комментарий к разблокировке
+                  description: Комментарий
+      responses:
+        '200':
+          description: Клиент успешно разблокирован
+        '404':
+          description: Клиент не найден или не заблокирован
+
+  /client/{id}/status:
+    get:
+      summary: Проверить статус блокировки клиента
+      tags:
+        - client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор клиента
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Статус клиента успешно получен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blocked:
+                    type: boolean
+                  reason:
+                    type: string
+                    nullable: true
+                    enum: [scam, incorrect_details]
+                    description: Причина блокировки (если заблокирован)
+        '404':
+          description: Клиент не найден
+
+  /client/{id}/block/history:
+    get:
+      summary: Получить историю блокировок клиента
+      tags:
+        - client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор клиента
+          schema:
+            type: string
+            format: uuid
+        - name: reason
+          in: query
+          schema:
+            type: string
+            enum: [scam, incorrect_details]
+          description: Фильтр по причине блокировки
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Номер страницы
+        - name: size
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Размер страницы
+      responses:
+        '200':
+          description: История блокировок успешно получена
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    action:
+                      type: string
+                      enum: [block, unblock]
+                    reason:
+                      type: string
+                      enum: [scam, incorrect_details]
+                    comment: 
+                      example: Подозрение на мошенничество
+                      type: string
+                    blocked_at:
+                      type: string
+                      format: date-time
+        '404':
+          description: Клиент не найден
