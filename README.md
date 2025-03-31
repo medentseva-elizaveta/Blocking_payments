@@ -56,6 +56,11 @@
 
 ### 5. Endpoint’ы
 
+Интерактивная Swagger-документация (OpenAPI 3.0) доступна здесь:
+
+Файл спецификации OpenAPI в формате YAML находится в [репозитории этого проекта](openapi.yaml). Интерактивная Swagger-документация (OpenAPI 3.0) расположена на [GitHub Pages данного репозитория](https://medentseva-elizaveta.github.io/Blocking_payments/).
+
+
 ### 5.1. Блокировка клиента `POST /client/{id}/block`
 **Логика работы:**
 1. Проверка существования клиента с `id`.
